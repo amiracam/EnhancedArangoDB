@@ -17,7 +17,8 @@ GuitarTest >> baseUri [
 
 { #category : #'test support' }
 GuitarTest >> createTestCollection [
-	
+	self halt. 
+	arango database: 'music_gear'.
 	arango createCollectionIfDoesntExist: 'guitars'
 ]
 
@@ -61,7 +62,7 @@ GuitarTest >> testPersistDocument [
 		pickupType: 'Humbuckers';
 		neckType: 'Ebony'.
 		
-	arango database:'music-gear'.
+	arango database:'music_gear'.
 	arango collection: 'guitars'.
 	resp := arango createDocument: guitar asDictionary.
 	
