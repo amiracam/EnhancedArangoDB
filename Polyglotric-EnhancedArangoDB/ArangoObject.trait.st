@@ -5,5 +5,5 @@ Trait {
 		'_rev',
 		'_key'
 	],
-	#category : #'Polyglotric-EnhancedArangoDB'
+	#category : #'Polyglotric-EnhancedArangoDB-traits'
 }
