@@ -17,7 +17,7 @@ GuitarTest >> baseUri [
 
 { #category : #'test support' }
 GuitarTest >> createTestCollection [
-	self halt. 
+	
 	arango database: 'music_gear'.
 	arango createCollectionIfDoesntExist: 'guitars'
 ]
@@ -40,6 +40,23 @@ GuitarTest >> setUp [
 ]
 
 { #category : #tests }
+GuitarTest >> testFindByID [
+		
+	| response arangoResponse resp guitar1 |
+	
+	response := arango findById: 'guitars/Godin_MultiacJazz2020'.
+	
+	arangoResponse := NeoJSONReader fromString: (NeoJSONWriter toString: response)  as: ArangoResponse .	
+	"empty collection , empty result, but parsing passes"	
+	self flag: 'replication specs need to account for 1:n relationships'.
+ 	guitar1 := Guitar newFromData: arangoResponse result first.
+	
+	self assert: guitar1 brand equals: 'Godin'
+		
+	
+]
+
+{ #category : #tests }
 GuitarTest >> testGuitarAccessors [
 
 	| guitar varNames |
@@ -56,6 +73,7 @@ GuitarTest >> testPersistDocument [
 	guitar := Guitar new.
 	
 	guitar 
+		_key: 'Godin_MultiacJazz2020';
 		model: 'MultiacJazz';
 		brand: 'Godin';
 		yearBuilt: '2010';
@@ -68,5 +86,15 @@ GuitarTest >> testPersistDocument [
 	
 	Transcript show: resp asString.
 		
+	
+]
+
+{ #category : #tests }
+GuitarTest >> testStoreStringForBlock [
+		
+	
+	[  ] storeString.
+
+	self assert: true
 	
 ]
